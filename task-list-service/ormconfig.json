@@ -1,0 +1,19 @@
+{
+  "type": "mysql",
+  "host": "172.18.0.2",
+  "port": 3306,
+  "username": "root",
+  "password": "RootPassword",
+  "database": "Tasklist",
+  "migrationsTableName": "custom_migration_table",
+  "migrations": [
+    "./dist/database/migration/*{.ts,.js}"
+  ],
+  "migrationsRun": true,
+  "entities": [
+    "./dist/**/*.entity{.ts,.js}"
+  ],
+  "synchronize": true,
+  "autoLoadEntities": true,
+  "logging": true
+}
