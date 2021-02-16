@@ -35,13 +35,14 @@ angular
     };
 
     $scope.addNewTask = function () {
-      $scope.updateUser($scope.task.email);
-      var task = {
-        description: $scope.task.description,
-        userEmail: $scope.task.email,
-      };
-      $http.post('http://localhost:3000/task', task).then(function () {
-        $scope.updateTasks();
+      $scope.updateUser($scope.task.email).then(() => {
+        var task = {
+          description: $scope.task.description,
+          userEmail: $scope.task.email,
+        };
+        $http.post('http://localhost:3000/task', task).then(function () {
+          $scope.updateTasks();
+        });
       });
     };
 
@@ -63,12 +64,11 @@ angular
         });
     };
 
-    $scope.updateUser = function (email) {
-      $http
+    $scope.updateUser = async function (email) {
+      await $http
         .put('http://localhost:3000/user/' + email, {
           name: $scope.task.assignedTo,
-        })
-        .then(function (response) { });
+        });
     };
 
     $scope.updateTasks();
