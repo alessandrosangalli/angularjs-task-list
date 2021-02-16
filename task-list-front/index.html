@@ -1,0 +1,39 @@
+<div ng-app='taskList' class='list-area panel-body ng-scope'>
+  <div ng-controller='taskListController'>
+    <h1>{{app}}</h1>
+    <h2>New Task</h2>
+    <div>
+      <input type='text' placeholder='Descrição' ng-model='task.description' required>
+      <input type='text' placeholder='Email' ng-model='task.email' ng-blur='findUser(task.email)' required>
+      <input type='text' placeholder='Responsável' ng-model='task.assignedTo' required>
+      <input type='button' ng-click='addNewTask(task)' value='add'>
+      <input type='button' ng-click='removeTask(tasks)' value='remove'>
+    </div>
+
+    <div style="width: 100%; display: inline-flex;">
+      <div ng-repeat='tasks in models.tasks'>
+        <h2>{{tasks.title}}</h2>
+        <ul>
+          <li ng-repeat='task in tasks.list'>
+            <p>
+              <b>Responsável</b> {{task.userName}} <{{task.userEmail}}>
+            </p>
+            <p>
+              <b>Descrição:</b> {{task.description}}
+              <button ng-click='changeStatus(task.id, tasks.isFinalState ? "previous" : "next")'>
+                {{tasks.isFinalState ? '<' : '>' }} </button>
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js"
+  integrity="sha512-7oYXeK0OxTFxndh0erL8FsjGvrl2VMDor6fVqzlLGfwOQQqTbYsGPv4ZZ15QHfSk80doyaM0ZJdvkyDcVO7KFA=="
+  crossorigin="anonymous"></script>
+<script src="app.js" type="text/javascript"></script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+  integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
