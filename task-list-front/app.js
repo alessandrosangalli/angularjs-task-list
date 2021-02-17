@@ -34,16 +34,21 @@ angular
       });
     };
 
-    $scope.addNewTask = function () {
-      $scope.updateUser($scope.task.email).then(() => {
+    $scope.addNewTask = function (description, userEmail) {
+      $scope.updateUser(userEmail).then(() => {
         var task = {
-          description: $scope.task.description,
-          userEmail: $scope.task.email,
+          description,
+          userEmail
         };
         $http.post('http://localhost:3000/task', task).then(function () {
+          $scope.task.email = "";
+          $scope.task.description = "";
+          $scope.task.assignedTo = "";
           $scope.updateTasks();
         });
       });
+
+      
     };
 
     $scope.changeStatus = function (taskId, moveTo) {
@@ -69,6 +74,10 @@ angular
         .put('http://localhost:3000/user/' + email, {
           name: $scope.task.assignedTo,
         });
+    };
+
+    $scope.addRandomTasks = function() {
+
     };
 
     $scope.updateTasks();
