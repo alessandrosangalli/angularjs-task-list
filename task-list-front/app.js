@@ -1,9 +1,9 @@
 angular.module('taskList', []);
 angular
-  .module('taskList')
+  .module('taskList', ['ngSanitize'])
   .controller('taskListController', function ($scope, $http) {
     $scope.app = 'task list app';
-
+    $scope.invalidEmailMessage = '';
     $scope.models = {
       tasks: [],
     };
@@ -70,6 +70,12 @@ angular
           if (response.data) {
             $scope.task.assignedTo = response.data.name;
           }
+        }).catch((err) => {
+          let wrongEmailMessage = 'Invalid format!';
+          if(err.data.message) {
+            wrongEmailMessage += ' Did you mean: ' + err.data.message + '?';
+          }
+          alert(wrongEmailMessage);
         });
     };
 

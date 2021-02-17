@@ -28,8 +28,11 @@ export class UserService {
     await this.userRepository.delete(id);
   }
 
-  async isValidEmail(email): Promise<boolean> {
+  async mailValidator(email): Promise<any> {
     const result = await this.httpService.get('http://apilayer.net/api/check?access_key=' + process.env.API_LAYER_KEY + '&email=' + email).toPromise();
-    return result.data.format_valid === true;
+    return {
+      valid: result.data.format_valid,
+      sugestion: result.data.did_you_mean
+    }
   }
 }

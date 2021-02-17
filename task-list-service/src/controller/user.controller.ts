@@ -8,8 +8,11 @@ export class UserController {
 
   @Get(':email')
   async findOne(@Param('email') email: string): Promise<User> {
-    if(!await this.userService.isValidEmail(email)) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    //duplicated code#1
+    const mailValidate = await this.userService.mailValidator(email);
+
+    if(mailValidate.valid !== true) {
+      throw new HttpException(mailValidate.sugestion, HttpStatus.BAD_REQUEST);
     }
 
     return await this.userService.findOne(email);
@@ -17,8 +20,11 @@ export class UserController {
 
   @Put(':email')
   async insert(@Param('email') email: string, @Body() body): Promise<void> {
-    if(!await this.userService.isValidEmail(email)) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    //duplicated code#1
+    const mailValidate = await this.userService.mailValidator(email);
+
+    if(mailValidate.valid !== true) {
+      throw new HttpException(mailValidate.sugestion, HttpStatus.BAD_REQUEST);
     }
 
     let user: User = await this.userService.findOne(email);
