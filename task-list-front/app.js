@@ -41,16 +41,11 @@ angular
           userEmail
         };
         $http.post('http://localhost:3000/task', task).then(function () {
-          
-          if($scope.fieldExists('email')) {
-            $scope.task.email = "";
-          }
-          if($scope.fieldExists('description')) {
-            $scope.task.description = "";
-          }
-          if($scope.fieldExists('assignedTo')) {
-            $scope.task.assignedTo = "";
-          }
+          ['email', 'description', 'assignedTo'].forEach((field) => {
+            if($scope.fieldExists(field)) {
+              $scope.task[field] = "";
+            }
+          });
           $scope.updateTasks();
         });
       });
