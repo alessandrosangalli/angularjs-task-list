@@ -29,7 +29,7 @@ export class UserService {
   }
 
   async isValidEmail(email): Promise<boolean> {
-    const result = await this.httpService.get('http://apilayer.net/api/check?access_key=621dcdd19de64bc657eaaae5a184e6fb&email=' + email).toPromise();
+    const result = await this.httpService.get('http://apilayer.net/api/check?access_key=' + process.env.API_LAYER_KEY + '&email=' + email).toPromise();
     return result.data.format_valid === true;
   }
 }
