@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Put } from '@nestjs/common';
 import { User } from '../database/model/user.entity';
 import { UserService } from '../service/user.service';
 
@@ -8,11 +8,19 @@ export class UserController {
 
   @Get(':email')
   async findOne(@Param('email') email: string): Promise<User> {
+    if(!await this.userService.isValidEmail(email)) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+
     return await this.userService.findOne(email);
   }
 
   @Put(':email')
   async insert(@Param('email') email: string, @Body() body): Promise<void> {
+    if(!await this.userService.isValidEmail(email)) {
+      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+    }
+
     let user: User = await this.userService.findOne(email);
     const name: string = body.name;
 
@@ -23,8 +31,6 @@ export class UserController {
       user.email = email;
       user.name = name;
     }
-
-    console.log(user)
 
     return this.userService.insert(user);
   }
