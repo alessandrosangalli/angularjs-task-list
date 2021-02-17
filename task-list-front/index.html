@@ -6,8 +6,10 @@
       <input type='text' placeholder='Descrição' ng-model='task.description' required>
       <input type='text' placeholder='Email' ng-model='task.email' ng-blur='findUser(task.email)' required>
       <input type='text' placeholder='Responsável' ng-model='task.assignedTo' required>
-      <input type='button' ng-click='addNewTask(task)' value='add'>
-      <input type='button' ng-click='removeTask(tasks)' value='remove'>
+      <input type='button' ng-click='addNewTask(task.description, task.email, task.assignedTo)' value='add'>
+    </div>
+    <div>
+      <button type='button' ng-click='addRandomTasks()' value='iam_vacant'> I'am vacant! </button>
     </div>
 
     <div style="width: 100%; display: inline-flex;">

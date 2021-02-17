@@ -34,22 +34,31 @@ angular
       });
     };
 
-    $scope.addNewTask = function (description, userEmail) {
-      $scope.updateUser(userEmail).then(() => {
+    $scope.addNewTask = function (description, userEmail, name) {
+      $scope.updateUser(userEmail, name).then(() => {
         var task = {
           description,
           userEmail
         };
         $http.post('http://localhost:3000/task', task).then(function () {
-          $scope.task.email = "";
-          $scope.task.description = "";
-          $scope.task.assignedTo = "";
+          
+          if($scope.fieldExists('email')) {
+            $scope.task.email = "";
+          }
+          if($scope.fieldExists('description')) {
+            $scope.task.description = "";
+          }
+          if($scope.fieldExists('assignedTo')) {
+            $scope.task.assignedTo = "";
+          }
           $scope.updateTasks();
         });
       });
-
-      
     };
+
+    $scope.fieldExists = function (field) {
+      return $scope.task && $scope.task[field];
+    } 
 
     $scope.changeStatus = function (taskId, moveTo) {
       $http
@@ -69,15 +78,24 @@ angular
         });
     };
 
-    $scope.updateUser = async function (email) {
+    $scope.updateUser = async function (email, name) {
       await $http
         .put('http://localhost:3000/user/' + email, {
-          name: $scope.task.assignedTo,
+          name: name
         });
     };
 
     $scope.addRandomTasks = function() {
+      $http.get('https://cat-fact.herokuapp.com/facts/random?animal_type=dog&amount=3').then(function(response) {
+        response.data.forEach(async function(fact) {
+          const description = fact.text;
+          const email = 'eu@me.com';
+          const name = 'Eu';
+          $scope.addNewTask(description, email, name);
+        });
 
+        $scope.updateTasks();
+      });
     };
 
     $scope.updateTasks();

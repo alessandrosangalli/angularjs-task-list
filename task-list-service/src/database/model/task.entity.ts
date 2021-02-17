@@ -7,7 +7,7 @@ export class Task {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column()
+  @Column('text')
   description: string;
 
   @ManyToOne(() => State, (state) => state.id)
